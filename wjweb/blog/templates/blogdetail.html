@@ -1,0 +1,88 @@
+
+{% extends "base.html" %}
+
+{% block blog %} class="active" {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+<style>
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    h1 {
+        font-family: 'Verdana', sans-serif;
+    }
+
+</style> 
+
+<div class="row" style="padding-left:25%; padding-right:25%; margin-top:15px;">
+    <h1>{{ blog.title }}</h1>
+
+    <div style='margin-top:15px;'>
+    {% if blog.tag.all %}
+            <p style="line-height:2;"><strong> 
+            {% for tag in blog.tag.all %}
+            <div style="color:#777;background-color:{{tag.color}};border-radius:5px; padding-left:4px; padding-right: 4px;margin-left:2px; margin-right:2px; display:inline-block;"> {{tag.name}} </div>
+            {% endfor %}
+            </strong></p>
+    {% endif %}
+    </div>
+
+    <div class='col-sm-12' style='padding:0px;margin-top:5px;'>
+        <div class='col-sm-6' style='padding:0px;'>
+            <div style="display:inline-block;vertical-align:middle;transform:translate(0, 0);margin-right:5px;">
+                <img src="{{ blog.author.head_pic.url }}" style="width:60px;height:60px;border-radius:50%;border:1px solid antiquewhite;">
+            </div>
+
+            <div style="display:inline-block;vertical-align:middle;transform:translate(0, 0);">
+                <p style='margin-bottom:0px;margin-top:10%;'>{{ blog.author.username }} 
+                    <button type="button" class="btn btn-default" style='padding:0px 10px;margin-left:10px;'>Follow</button>
+                </p>
+                <p><small style='color:#777;'>{{ blog.pub_time | date:'M d, Y' }} &#183; 5 min read &#9733;</small></p>
+            </div>
+        </div>
+        <div class='col-sm-5' style='padding:0px;'>
+
+        </div>
+                            
+    </div>
+
+    <div class='col-sm-12' style='padding:0px;margin-top:20px;'>
+        {{ blog.body | safe }} 
+        <br>
+    </div>
+
+    <hr style='width:100%;'>
+
+
+
+        {% if comments %}    
+        <h4><span style="color:#f55;">{{ ncomment }}</span> comments:</h4>
+            {% for comment in comments %}
+            <div style="padding:10px;text-align:left;">
+                <div style="display:inline-block;vertical-align:middle;transform:translate(0, -40%);">
+                    <img src="{{ comment.author.head_pic.url }}" style="width:60px;height:60px;border-radius:50%;">
+                </div>
+                <div style="display:inline-block;margin-left:10px;">
+                    <p>{{comment.author.username}} <span style="color:#888;">  <span class="glyphicon glyphicon-time"></span> <small>{{ comment.time | date:'Y-m-d H:i' }}</small></span></p>
+                    <p>{{comment.content}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+                <h4>There is no comment for this blog yet. Want to be the first commenter?</h4>
+        {% endif %}
+
+
+    
+
+
+</div>
+
+{% endblock %}
+
+

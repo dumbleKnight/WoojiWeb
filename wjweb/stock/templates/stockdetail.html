@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block products %} class="active" {% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'stock.css' %}">
+<script type="text/javascript" src="{% static 'stock.js' %}"></script>
+
+<style>
+    .tab-content {
+        border-left: 0px solid #ddd;
+        border-right: 0px solid #ddd;
+        border: 0px;
+        padding: 10px;
+    }
+</style>
+
+<div class="row" style="padding-left:10%; padding-right:10%; margin-top:15px;">
+
+    <div class="col-sm-12" style="padding:0px;">
+        <div class='col-sm-6' style="padding:0px;">
+            <h5><a href="/">Home</a> / <a href="/stock/">Stock</a> / {{sprofile.symbol}}</h5>
+        </div>
+        <div class='col-sm-6' style="padding:0px;">
+                <h4 style='text-align: right;'><a href="javascript:search_blog('{{ sprofile.symbol }}')">Search blogs about {{ sprofile.symbol }}</a></h4>
+        </div>
+    </div>
+
+    <hr style='width:100%;'>
+            
+    <div class="col-sm-12" >        
+        <h3 id="stock_header_id"></h3>
+        <div id='col6_timeseries' class='col-sm-6'  style='padding:0px;border-right: 1px solid #ccc;'>
+            <h4>Show historical data: <select id="histperiod_id"></select></h4>
+            <div class="container"  id="div_ts_id" style="width: 100%; padding:0px;">        
+                    <svg class="svg" id="timeseries_id"></svg>
+            </div>        
+        </div>
+
+        <div class='col-sm-6'>
+            <h4>Wooji prediction:</h4>
+            <center>
+                <table id='prediction_table_id'></table>
+            </center>
+            <br>
+            <h4>Prediction rating: 
+                <div id = "like-button" style="display: inline-block;">
+                    <i class="glyphicon glyphicon-thumbs-up" id = "like" onmouseover="" style="cursor: pointer;"></i>
+                </div>
+                <div id = "dislike-button" style="display: inline-block;">
+                    <i class="glyphicon glyphicon-thumbs-down" id = "dislike" onmouseover="" style="cursor: pointer;"></i>
+                </div>
+            </h4>
+        </div>
+
+        <div id="pricetooltip" style="position:absolute;display:None;"></div>    
+        <div id="prediction_tooltip" style="position:absolute;display:None;"></div>
+
+    </div>
+
+    <br>
+
+    <div class="col-sm-12" style='margin-top:30px;margin-bottom:20px;'>        
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#company_profile_id">Company Profile</a></li>
+            <li><a data-toggle="tab" href="#financials_id">Financials</a></li>
+            <li><a data-toggle="tab" href="#news_id">News</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="company_profile_id" class="tab-pane fade in active">
+                Company profile of {{ sprofile.symbol }}
+            </div>
+            <div id="financials_id" class="tab-pane fade ">
+                Financials of {{ sprofile.symbol }}
+            </div>
+            <div id="news_id" class="tab-pane fade ">
+                Recent news of {{ sprofile.symbol }}
+            </div>
+            
+        </div>
+    </div>
+
+
+
+
+<!--
+        <br><br>
+        <hr>
+        <div class="row" id="prediction_notation" style="text-size-adjust:10;">
+            <ul> <strong>Notations of Wooji prediction</strong>:
+                <li><font color='#3a3'>&#x2b06&#x2b06&#x2b06&#x2b06&#x2b06</font>: stock price will go up (with very high confidence)</li>
+                <li><font color='#3a3'>&#x2b06&#x2b06&#x2b06&#x2b06</font>: stock price will go up (with high confidence)</li>
+                <li><font color='#3a3'>&#x2b06&#x2b06&#x2b06</font>: stock price will go up (with some confidence)</li>
+                <li><font color='#3a3'>&#x2b06&#x2b06</font>: stock price will go up (with low confidence)</li>
+                <li><font color='#3a3'>&#x2b06</font>: stock price will go up (with very low confidence)</li>
+                <li><font color='#f33'>&#x2b07</font>: stock price will go down (with very low confidence)</li>
+                <li><font color='#f33'>&#x2b07&#x2b07</font>: stock price will go down (with long confidence)</li>
+                <li><font color='#f33'>&#x2b07&#x2b07&#x2b07</font>: stock price will go down (with some confidence)</li>
+                <li><font color='#f33'>&#x2b07&#x2b07&#x2b07&#x2b07</font>: stock price will go down (with high confidence)</li>
+                <li><font color='#f33'>&#x2b07&#x2b07&#x2b07&#x2b07&#x2b07</font>: stock price will go down (with very high confidence)</li>
+
+            </ul>
+        </div>   
+    --> 
+</div>
+
+
+
+<script>
+    var shead = document.getElementById("stock_header_id");
+    var shistperiod = document.getElementById("histperiod_id");
+    var div_ts = document.getElementById("div_ts_id");
+    var tsvg = document.getElementById("timeseries_id");    
+    var likeButton = document.getElementById("like-button");
+    var dislikeButton = document.getElementById("dislike-button");
+    var like = document.getElementById("like");
+    var dislike = document.getElementById("dislike");
+
+    var getUrl = window.location.protocol + "//" + window.location.host;
+    $.ajax({
+            url: getUrl + "/" + "ratings/",
+            type: "get", 
+            async: false, 
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}', 'rating_type': "stock", "rating_symbol":  "{{sdata.symbol}}" },
+            success: function(data) {  
+                like.textContent = data["likes"]
+                dislike.textContent = data["disLikes"]
+                if (data["hasRatedLike"]) {
+                    //likeButton.setAttribute("style", "color:blue");
+                    likeButton.style.color = 'blue';
+                }
+                if (data["hasRatedDislike"]) {
+                    //dislikeButton.setAttribute("style", "color:blue");
+                    dislikeButton.style.color= 'blue';
+                }
+            }
+    });
+
+    var svgw = div_ts.offsetWidth - 30;
+    var svgh = Math.round(div_ts.offsetWidth*0.5);
+
+    tsvg.setAttribute("height", svgh);
+    tsvg.setAttribute("width", svgw); 
+
+    init_select("histperiod_id", ['1M', '3M', '6M', '1Y', '5Y', 'Max'], [22,66,126,252,252*5,252*100], 0);
+
+    shead.innerHTML = "{{ sprofile.company_name }} ({{ sprofile.symbol }}):  " + 
+            "<font color={% if sdata.recent_return_1d > 0 %}#33bb33{% else %}#ff3333{% endif %}>" + 
+            "{{ sdata.recent_price }} (" + 
+            "{% if sdata.recent_return_1d > 0 %}+{% endif %}" + 
+            Math.round({{ sdata.recent_return_1d }}*10000)/100+"%)</font>";
+    
+    draw_timeseries('timeseries_id', 'pricetooltip', {{ histprice | safe }}, 22, svgh, svgw);
+    show_prediction_table('prediction_table_id', 
+        [{{ sdata.pred_short_star }}, {{sdata.pred_medium_star}}, {{sdata.pred_long_star}}] );
+
+    shistperiod.oninput = function () {
+        tsvg.innerHTML = "";
+        draw_timeseries('timeseries_id', 'pricetooltip', {{ histprice | safe }}, shistperiod.value, svgh, svgw);
+        show_prediction_table('prediction_table_id', 
+            [{{ sdata.pred_short_star }}, {{sdata.pred_medium_star}}, {{sdata.pred_long_star}}] );
+    };
+
+    likeButton.onclick = function() {
+        //call endpoint to insert like
+        if ({{ user.is_authenticated |yesno:"true,false"}}) {
+            $.ajax({
+                url: getUrl + "/" + "ratings/",
+                type: "post", 
+                async: false, 
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}', 'isLike': 1, 'rating_type': "stock", "rating_symbol":  "{{sdata.symbol}}" },
+                success: function(data) { 
+                    change =  data["result"]
+                    if (change === 1) {
+                        //likeButton.setAttribute("style", "color:blue");
+                        likeButton.style.color = 'blue';
+                    }
+                    else {
+                        //likeButton.setAttribute("style", 'color:black');
+                        likeButton.style.color = 'black';
+
+                    }
+                    like.textContent = parseInt(like.textContent) + change          
+                }
+            });
+        }
+    }
+
+    dislikeButton.onclick = function() {
+        //call endpoint to insert dislike
+        if ({{ user.is_authenticated |yesno:"true,false"}}) {
+            $.ajax({
+                url: getUrl + "/" + "ratings/",
+                type: "post", 
+                async: false, 
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}', 'isLike': 0, 'rating_type': "stock", "rating_symbol":  "{{sdata.symbol}}" },
+                success: function(data) { 
+                    change =  data["result"]
+                    if (change === 1) {
+                        //dislikeButton.setAttribute("style", "color:blue");
+                        dislikeButton.style.color= 'blue';
+                    }
+                    else {
+                        //dislikeButton.setAttribute("style", "color:black");
+                        dislikeButton.style.color= 'black';
+                    }
+                    dislike.textContent = parseInt(dislike.textContent) + change
+                }
+            });
+        }
+    }
+
+</script>
+
+{% endblock %}
+
+

@@ -1,0 +1,15 @@
+
+{% extends 'base_accounts.html' %}
+
+{% block content_accounts %}
+
+<form action="{% url 'blog:create_blog' %}" method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <input type="submit" name="save_to_draft" value="Save as a draft" />
+    <input type="submit" name="save_and_publish" value="Save and publish" />
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load static %}
+
+<div id='img0' class='row' style='padding:0px;margin:0px;'>
+    <img src="{% static 'coming_soon.png' %}" style="width:100%;height:auto;">
+</div>
+
+<a href="https://www.facebook.com/pg/Wooji-Capital-105431987510016/posts/?ref=page_internal"> 
+    <img id='img1' src="{% static 'facebook.png' %}" style="position: absolute; height:auto;">
+</a>
+
+<a href="https://www.instagram.com/woojicapital/">
+    <img id='img2' src="{% static 'instagram.png' %}"  style="position: absolute; height:auto;">
+</a>
+
+<a href="https://www.linkedin.com/in/wooji-capital/">
+    <img id='img3' src="{% static 'linkedin.png' %}"  style="position: absolute; height:auto;">
+</a>
+
+<a href = "https://twitter.com/CapitalWooji/">
+    <img id='img4' src="{% static 'twitter.png' %}"  style="position: absolute; height:auto;">
+</a>
+
+<script>
+    i0 = document.getElementById('img0');
+    i1 = document.getElementById('img1');
+    i2 = document.getElementById('img2');
+    i3 = document.getElementById('img3');
+    i4 = document.getElementById('img4');
+    
+    function adjust_icon() {
+        i1 = document.getElementById('img1');
+        i2 = document.getElementById('img2');
+        i3 = document.getElementById('img3');
+        i4 = document.getElementById('img4');
+        i1.style.width = (window.innerWidth * 0.1) + "px";
+        i1.style.top = (window.innerWidth * 0.4 + 50) + "px";
+        i1.style.left = (window.innerWidth * 0.3) + "px";
+
+        i2.style.width = (window.innerWidth * 0.1) + "px";
+        i2.style.top = (window.innerWidth * 0.4 + 50) + "px";
+        i2.style.left = (window.innerWidth * 0.4) + "px";    
+        
+        i3.style.width = (window.innerWidth * 0.1) + "px";
+        i3.style.top = (window.innerWidth * 0.4 + 50) + "px";
+        i3.style.left = (window.innerWidth * 0.5) + "px";
+
+        i4.style.width = (window.innerWidth * 0.1) + "px";
+        i4.style.top = (window.innerWidth * 0.4 + 50) + "px";
+        i4.style.left = (window.innerWidth * 0.6) + "px";
+        }
+
+    $(document).ready(function(){ 
+        adjust_icon();
+    });
+
+    $(window).resize(function() {
+        adjust_icon();
+    });
+
+
+</script>
+
+{% endblock%}

@@ -1,0 +1,135 @@
+.prediction_star_negative {
+  color: lightblue;
+}
+
+.prediction_star_positive {
+  color: pink;
+}
+
+#universe_id, #predterm_id {
+    color: #55f;
+    width: 100%;
+}
+
+#histperiod_id {
+    color: #55f;
+}
+
+#tooltip_id {
+  background: cornsilk;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#pricetooltip {
+  background: cornsilk;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+g.hovered > rect {
+    fill: blue;
+}
+
+#timeseries_id.grid {
+    stroke: #aaa;
+    stroke-dasharray: 5 5;
+    stroke-width: 1;
+}
+
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 1px;
+    margin: 0px;
+}
+
+.nav-tabs {
+    margin: 0px;
+    padding: 0px;
+}
+
+#toptable_id {
+    width: 100%;
+}
+
+#toptable_id td {
+    padding: 5px;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    text-align: center;
+}
+
+#toptable_id > tr:first-child > td {
+    border-top: 2px solid #888;
+    font-weight: bold;
+}
+
+#toptable_id > tr:nth-child(2) > td {
+    border-bottom: 2px solid #888;
+    text-align: center;
+    font-weight: bold;
+}
+
+#toptable_id > tr:last-child > td {
+    border-bottom: 2px solid #888;
+}
+
+#toptable_id > tr > td:nth-child(n) {
+    background: #cfc;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+
+#toptable_id > tr > td:first-child {
+    border-left: 2px solid #888;
+}
+
+#toptable_id > tr > td:last-child {
+    border-right: 2px solid #888;
+}
+
+#toptable_id > tr:first-child > td:nth-child(1) {
+    background: #cfc;
+    border-right: 2px solid #888;
+}
+#toptable_id > tr:first-child > td:nth-child(2) {
+    background: #fcc;
+}
+#toptable_id > tr:nth-child(2) > td:nth-child(n) {
+    background: #cfc;
+}
+#toptable_id > tr:nth-child(2) > td:nth-child(n+4) {
+    background: #fcc;
+}
+#toptable_id > tr:nth-child(n+3) > td:nth-child(n) {
+    background: #efe;
+}
+#toptable_id > tr:nth-child(n+3) > td:nth-child(n+4) {
+    background: #fee;
+}
+#toptable_id > tr:nth-child(n+2) > td:nth-child(3) {
+    border-right: 2px solid #888;
+}
+
+#prediction_table_id {
+    width: auto;
+}
+
+#prediction_table_id  td {
+    padding: 5px;
+    text-align: center;
+}
+
+#prediction_table_id > tr:first-child > td {
+    border-top: 1px solid #aaa;
+    font-weight: bold;
+}
+
+#prediction_table_id > tr:last-child > td {
+    border-bottom: 1px solid #aaa;
+    font-weight: bold;
+}

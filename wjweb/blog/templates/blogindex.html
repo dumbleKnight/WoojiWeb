@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block blog %} class="active" {% endblock %}
+
+{% block content %}
+
+
+<div class="row" style="padding-left:10%; padding-right:10%; margin-top:15px;">
+    
+    <div class="col-sm-12">
+
+    <div class="col-sm-9">
+
+        {% for blog in blogs %}
+        <div class="container-fluid" style="padding:0px;text-align:left;">            
+                <div style="display:inline-block;transform:translate(0, -30%);margin-right:5px;">
+                        <img src="{{ blog.author.head_pic.url }}" style="width:60px;height:60px;border-radius:50%;border:1px solid antiquewhite;">
+                </div>
+
+            <div style="display:inline-block;margin-left:10px;">
+            <a href="{{ blog.get_absolute_url }}">
+                <h3>{{ blog.title }}</h3>
+            </a>
+            <p>By: <a href="javascript:get_author_blogs({{ blog.author.id }})">{{blog.author.username}}</a>  <span class="glyphicon glyphicon-time"></span> <small>{{ blog.pub_time | date:'Y-m-d H:i' }}</small></p>
+            </div>
+
+            <div>
+                <p>{{ blog.summary|linebreaks|urlize }}</p>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if blogs.has_previous %}
+                    <a href="?page=1">&laquo; <button type="button" class="btn btn-primary">first</button></a>
+                    <a href="?page={{ blogs.previous_page_number }}"><button type="button" class="btn btn-primary">previous</button></a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}.
+                </span>
+
+                {% if blogs.has_next %}
+                    <a href="?page={{ blogs.next_page_number }}"><button  type="button" class="btn btn-primary">next</button></a>
+                    <a href="?page={{ blogs.paginator.num_pages }}"><button type="button" class="btn btn-primary">last</button> &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
+    </div>
+    
+    
+    <div class="col-sm-3">
+        
+            <h4>Recent posts:</h4>
+            <ul>
+                <li>    <a href="#">recent 1 blog</a></li>
+                <li>    <a href="#">recent 2 blog</a></li>
+                <li>    <a href="#">recent 3 blog</a></li>
+            </ul>
+            <h4>Most popular posts:</h4>
+            <ul>
+                <li>    <a href="#">top 1 blog</a></li>
+                <li>    <a href="#">top 2 blog</a></li>
+                <li>    <a href="#">top 3 blog</a></li>
+            </ul>
+            <h4>Most popular authors:</h4>
+            <ul>
+                <li>    <a href="#">top 1 author</a></li>
+                <li>    <a href="#">top 2 author</a></li>
+                <li>    <a href="#">top 3 author</a></li>
+            </ul>
+            <h4>Timeline</h4>
+            <ul>
+                <li>    <a href="#">Jan 2020</a></li>
+                <li>    <a href="#">Dec 2019</a></li>
+                <li>    <a href="#">Nov 2019</a></li>
+                <li>    <a href="#">Oct 2019</a></li>
+                <li>    <a href="#">Sep 2019</a></li>
+            </ul>
+
+
+
+        <br>
+
+        <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search Blog..">
+            <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+            </span>
+        </div>
+        </input>
+        <br>
+
+
+    </div>
+    </div>
+
+</div>
+
+<script>
+
+    function get_author_blogs(author_id) {
+
+        console.log(author_id);
+
+        $.ajax({
+            url: "",
+            type: "post", 
+            async: false, 
+            data: {csrfmiddlewaretoken: "{{ csrf_token }}", 'author_id':author_id },
+            //success: function(data) {
+            //    location.reload();
+            //}
+        });
+    };
+
+</script>
+
+{% endblock %}
+
+

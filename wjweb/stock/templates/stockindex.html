@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block products %} class="active" {% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'stock.css' %}">
+<script src="//d3js.org/d3-queue.v3.min.js"></script>
+<script type="text/javascript" src="{% static 'stock.js' %}"></script>
+<div class="row" style="padding-left:15%; padding-right:15%; margin-top:15px;">
+
+    <div class="col-sm-6 text-center">
+        <h4>Stock universe: <select id="universe_id" style='display: inline-block; width:auto;'></select></h4>
+    </div>
+    <div class="col-sm-6 text-center">
+        <h4>Prediction: <select id="predterm_id"  style='display: inline-block; width:auto;'></select></h4>
+    </div>
+    
+    <div class="col-sm-12" id='div_col' style="padding:15px;marging:0px;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#heatmapindex">Heatmap</a></li>
+            <li><a data-toggle="tab" href="#tableindex">Top gain/loss</a></li>
+        </ul>
+
+
+        <div class="tab-content">
+            <div id="heatmapindex" class="tab-pane fade in active" style="margin-bottom:-5px;padding:0px;">
+                <svg id="treemap_id"></svg>
+            </div>
+
+            <div id="tableindex" class="tab-pane fade">
+                <table id="toptable_id"></table>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+
+<div id="tooltip_id" style="position:absolute;display:None;"></div>
+
+<script>
+    var u = document.getElementById("universe_id");
+    var p = document.getElementById("predterm_id");
+    var tm = document.getElementById("treemap_id");
+    var toptable = document.getElementById("toptable_id");
+    var div_col = document.getElementById('heatmapindex');
+
+    var svgw = div_col.offsetWidth;
+    var svgh = Math.round(div_col.offsetWidth*0.8);
+
+    tm.setAttribute("height", svgh);
+    tm.setAttribute("width", svgw);    
+
+    var us = [{% for u in universe %}'{{ u.name }}', {% endfor %}];
+    init_select("universe_id", us, us, 0);
+
+    var terms = ['Short-term', 'Medium-term', 'Long-term'];
+    init_select("predterm_id", terms, terms, 0);
+    
+    d3_draw_treemap(get_tmarray(flag='all'), "treemap_id", "predterm_id", "tooltip_id"); 
+      
+    show_top_table(get_tmarray(flag='top'), "toptable_id", "predterm_id");
+
+    function get_tmarray(flag='all') {
+        var tmarray = [];
+        $.ajax({
+            url: "",
+            type: "post", 
+            async: false, 
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}', 'universe':u.value, 'predterm':p.value, 
+                'width':svgw, 'height':svgh, 'flag':flag },
+            success: function(data) {
+                tmarray = data;
+            }
+        });
+        return tmarray;
+    };
+    
+    u.oninput = function () {
+        draw_treemap(get_tmarray(flag='all'), "treemap_id", "predterm_id", "tooltip_id");
+        show_top_table(get_tmarray(flag='top'), "toptable_id", "predterm_id");
+    };
+
+    p.oninput = function () {
+        draw_treemap(get_tmarray(flag='all'), "treemap_id", "predterm_id", "tooltip_id");
+        show_top_table(get_tmarray(flag='top'), "toptable_id", "predterm_id");
+    };
+
+</script>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block products %} class="active" {% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="../static/crypto.css">
+<script type="text/javascript" src="{% static 'crypto.js' %}"></script>
+<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+<h1>Technical analysis</h1>
+<br></br>
+<h3>A fast and easy way to analyze Cryptocurrencies</h3>
+<br></br>
+<div id="panel" style="width: 600px;height:400px;"></div>
+<script>
+    test();
+</script>
+
+{% endblock %}

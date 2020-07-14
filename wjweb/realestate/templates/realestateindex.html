@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block products %} class="active" {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'usmap.css' %}">
+
+
+<div class="row" style='padding-left:10%; padding-right: 10%; margin-top:15px; margin-bottom:20px;'>
+
+    <div class="col-sm-12">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#usmap">Map</a></li>
+            <li><a data-toggle="tab" href="#top_states">Top States</a></li>
+            <li><a data-toggle="tab" href="#top_cities">Top Cities</a></li>
+        </ul>
+
+        <div class="tab-content" style="margin:0px;padding:0px;">
+            <div id="usmap" class="tab-pane fade in active">
+            </div>
+            
+            <div id="top_states" class="tab-pane fade">
+                Show real estate prediction here.
+            </div>
+
+            <div id="top_cities" class="tab-pane fade">
+                Show real estate prediction here.
+            </div>
+
+        </div>
+    </div>
+    
+
+</div>
+
+
+<script>
+    var div_col = document.getElementById('usmap');
+
+//Width and height of map
+var width = div_col.offsetWidth;
+var height = Math.round(div_col.offsetWidth*0.6);
+
+// D3 Projection
+var projection = d3.geo.albersUsa()
+				   .translate([width/2, height/2])    // translate to center of screen
+				   .scale([1.2 * width]);          // scale things down so see entire US
+        
+// Define path generator
+var path = d3.geo.path()               // path generator that will convert GeoJSON to SVG paths
+		  	 .projection(projection);  // tell path generator to use albersUsa projection
+
+		
+// Define linear scale for output
+var color = d3.scale.linear()
+			  .range(["rgb(213,222,217)","rgb(69,173,168)","rgb(84,36,55)","rgb(217,91,67)"]);
+
+var legendText = ["Cities Lived", "States Lived", "States Visited", "Nada"];
+
+//Create SVG element and append map to the SVG
+var svg = d3.select("#usmap")
+			.append("svg")
+			.attr("width", width)
+			.attr("height", height);
+        
+// Append Div for tooltip to SVG
+var div = d3.select("body")
+		    .append("div")   
+    		.attr("class", "tooltip")               
+            .style("display", "none")
+            .style("opacity", "0.9");
+
+
+// Load GeoJSON data and merge with states data
+d3.json("{% static 'us-states.json' %}", function(json) {
+
+		
+// Bind the data to the SVG and create one path per GeoJSON feature
+svg.selectAll("path")
+	.data(json.features)
+	.enter()
+	.append("path")
+	.attr("d", path)
+	.style("stroke", "#fff")
+	.style("stroke-width", "1")
+	.style("fill", "#4a4")
+	.on("mouseover", function(d) {      
+    	div.transition()
+      	    .duration(100)
+            .style("display", "block");
+		div.text(d.properties.name)
+		    .style("left", (d3.event.pageX) + "px")
+		    .style("top", (d3.event.pageY) + "px");
+	})             
+    .on("mouseout", function(d) {       
+        div.transition()
+           .duration(100)
+           .style("display", "none");   
+    });
+
+	
+	});
+
+    
+
+</script>
+
+{% endblock %}
+
+

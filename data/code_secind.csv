@@ -1,0 +1,77 @@
+code,sector,industry
+101010,Energy,Energy Equipment & Services
+101020,Energy,"Oil, Gas & Consumable Fuels"
+151010,Materials,Chemicals
+151020,Materials,Construction Materials
+151030,Materials,Containers & Packaging
+151040,Materials,Metals & Mining
+151050,Materials,Paper & Forest Products
+201010,Industrials,Aerospace & Defense
+201020,Industrials,Building Products
+201030,Industrials,Construction & Engineering
+201040,Industrials,Electrical Equipment
+201050,Industrials,Industrial Conglomerates
+201060,Industrials,Machinery
+201070,Industrials,Trading Companies & Distributors
+202010,Industrials,Commercial Services & Supplies
+202020,Industrials,Professional Services
+203010,Industrials,Air Freight & Logistics
+203020,Industrials,Airlines
+203030,Industrials,xxxxxx
+203040,Industrials,Road & Rail
+203050,Industrials,Transportation Infrastructure
+251010,Consumer Discretionary,Auto Components
+251020,Consumer Discretionary,Automobiles
+252010,Consumer Discretionary,Household Durables
+252020,Consumer Discretionary,Leisure Products
+252030,Consumer Discretionary,"Textiles, Apparel & Luxury Goods"
+253010,Consumer Discretionary,"Hotels, Restaurants & Leisure"
+253020,Consumer Discretionary,Diversified Consumer Services
+254010,Consumer Discretionary,Media
+255010,Consumer Discretionary,Distributors
+255020,Consumer Discretionary,Internet & Direct Marketing Retail
+255030,Consumer Discretionary,Multiline Retail
+255040,Consumer Discretionary,Specialty Retail
+301010,Consumer Staples,Food & Staples Retailing
+302010,Consumer Staples,Beverages
+302020,Consumer Staples,Food Products
+302030,Consumer Staples,Tobacco
+303010,Consumer Staples,Household Products
+303020,Consumer Staples,Personal Products
+351010,Health Care,Health Care Equipment & Supplies
+351020,Health Care,Health Care Providers & Services
+351030,Health Care,Health Care Technology
+352010,Health Care,Biotechnology
+352020,Health Care,Pharmaceuticals
+352030,Health Care,Life Sciences Tools & Services
+401010,Financials,Banks
+401020,Financials,Thrifts & Mortgage Finance
+402010,Financials,Diversified Financial Services
+402020,Financials,Consumer Finance
+402030,Financials,Capital Markets
+402040,Financials,xxxxxx
+403010,Financials,Insurance
+404010,Financials,xxxxxx
+404020,Financials,Real Estate Investment Trusts (REITs)
+404030,Financials,xxxxxx
+451010,Information Technology,Internet Software & Services
+451020,Information Technology,IT Services
+451030,Information Technology,Software
+452010,Information Technology,Communications Equipment
+452020,Information Technology,"Technology Hardware, Storage & Peripherals"
+452030,Information Technology,"Electronic Equipment, Instruments & Components"
+452040,Information Technology,xxxxxx
+452050,Information Technology,xxxxxx
+453010,Information Technology,Semiconductors & Semiconductor Equipment
+501010,Communication Services,Diversified Telecommunication Services
+501020,Communication Services,Wireless Telecommunication Services
+502010,Communication Services,Media
+502020,Communication Services,Entertainment
+502030,Communication Services,Interactive Media & Services
+551010,Utilities,Electric Utilities
+551020,Utilities,Gas Utilities
+551030,Utilities,Multi-Utilities
+551040,Utilities,Water Utilities
+551050,Utilities,Independent Power and Renewable Electricity Producers
+601010,Real Estate,Equity Real Estate Investment Trusts (REITs)
+601020,Real Estate,Real Estate Management & Development

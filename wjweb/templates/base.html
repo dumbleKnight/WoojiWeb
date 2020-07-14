@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+
+  {% load static %}
+  
+  <link rel="icon" href="{% static "woojilogo.gif" %}" sizes="16x16">
+  
+    <title>Wooji</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+
+  
+  <style>
+  body {
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+    color: #000;
+  }
+  .navbar {
+    margin-bottom: 0;
+    background-color: #ddd;
+    z-index: 9999;
+    border: 0;
+    font-size: 14px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+    font-family: Montserrat, sans-serif;
+  }
+  .navbar li a {
+    color: #000;
+  } 
+  .navbar .navbar-brand {
+    color: #55f !important;
+    font-weight: bold;
+    font-size: 18px !important;
+    padding-top: 0px;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #55f !important;
+    background-color: #fff !important;
+    font-weight: bold;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #000 !important;
+  }
+
+  .dropdown-menu li a:hover {
+      font-weight: bold;
+      background-color: #fff;
+  }
+
+  .dropdown:hover .dropdown-menu {
+      display: block;
+      background-color: #ddd;
+  }
+
+  footer .glyphicon {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #f4511e;
+  }
+  footer {
+      background-color: #eee;
+      color: #000;
+      padding: 50px 15px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .col-sm-6 {
+        border-right: none;
+    }
+    .btn-lg {
+      width: 100%;
+      margin-bottom: 35px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .logo {
+      font-size: 150px;
+    }
+    .col-sm-6 {
+        border-right: none;
+    }
+  }
+  </style>
+</head>
+
+<body id="body_id" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="/"><img src="{% static 'woojilogo.gif' %}" style='height:50px;width:auto;'></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a  id='about_id' href="/#about">About</a></li>
+
+                <li {% block products %}{% endblock %} class="dropdown">
+                    <a id='products_id' class="dropdown-toggle" data-toggle="dropdown" href="/#products">Products
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/stock">Stock</a></li>
+                        <li><a href="/option">Option</a></li>
+                        <li><a href="/crypto">Crypto</a></li> 
+                        <li><a href="/realestate">Real-Estate</a></li> 
+                        <li><a href="/strategy">Strategies</a></li> 
+                        <li><a href="/">Intelligence</a></li> 
+                    </ul>
+                </li>
+    
+                <li {% block blog %}{% endblock %}><a href="/blog">Blogs</a></li>
+
+                {% if user.is_authenticated %}
+                    <li {% block user %}{% endblock %}><a href="/accounts/update"><span class="glyphicon glyphicon-user"></span> {{ user.get_username }}</a></li>
+                    <li><a href="{% url 'logout' %}">
+                        <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                {% else %}
+                    <li {% block signup %}{% endblock %}><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> Signup</a></li>
+                    <li {% block login %}{% endblock %}><a href="{% url 'login' %}?next={{request.path}}">
+                        <span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                {% endif %}
+                    
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class='row' style="margin:0px; padding: 0px; margin-top:50px;">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <footer class="container-fluid text-center">
+        <a href="#body_id" title="To Top">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+        <br>
+
+        <div class='col-sm-4'>
+            <h4>&copy; 2020 Wooji Capital LLC</h4>
+            <br>
+            <p>Tel: +1 (626)741-8855</p>
+            <p>Email: info@woojicap.com</p>
+        </div>
+
+        <div class='col-sm-4'>
+            <h4>Pages</h4>
+                <a href='/'>Home</a><br>
+                <a href='/#products'>Products</a><br>
+                <a href='/blog'>Blogs</a><br>
+                <a href='/#contact'>Contact</a>
+        </div>
+        <div class='col-sm-4'>
+            <h4>Follow Us</h4>
+            <a href='https://www.linkedin.com/in/wooji-capital/'>
+                <i class="fa fa-linkedin-square" style="font-size:18px"></i> LinkedIn
+            </a>
+            <br>
+            <a href="https://www.instagram.com/woojicapital/">
+                <i class="fa fa-instagram" style="font-size:18px"></i> Instagram                
+            </a>
+
+            <br>
+            <a href="https://www.facebook.com/pg/Wooji-Capital-105431987510016/posts/?ref=page_internal">
+                <i class="fa fa-facebook" style="font-size:18px"></i> Facebook                
+            </a>
+
+            <br>
+            <a href="https://twitter.com/CapitalWooji/">
+                <i class="fa fa-twitter" style="font-size:18px"></i> Twitter
+            </a>            
+          </div>
+
+    </footer>
+
+</body>
+</html>
+
+

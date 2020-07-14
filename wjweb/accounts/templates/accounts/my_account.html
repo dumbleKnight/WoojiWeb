@@ -1,0 +1,17 @@
+{% extends 'base_accounts.html' %}
+
+{% block user %} class="active" {% endblock %}
+
+{% block content_accounts %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <img src="{{ user.head_pic.url }}" width="300px" height="300px" />
+        <h3>Welcome, {{ user.username }}!</h3> 
+        {% for field in form %}
+            {{ field.label_tag }} {{ field }}
+            <br>
+        {% endfor %}
+        <button type="submit" value="Update">Save changes</button>
+    </form>
+{% endblock %}

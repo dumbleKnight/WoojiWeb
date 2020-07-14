@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block login %} class="active" {% endblock %}
+
+{% block title %}Log-in{% endblock %}
+{% block content %}
+
+{% load static %}
+
+
+<center>
+   <img src='{% static "woojilogo.gif" %}' style='height:200px;width:auto;'>
+
+    <br>
+   {% if form.errors %}Your username and password didn't match. Please try again.{% endif %}
+   <form action="{% url 'login' %}" method="post" class="form-signin" style='margin-bottom:20px;'>
+      {% csrf_token %}
+      {{ form.as_p }}     
+
+      <input type="hidden" name="next" value="{{ next }}" />     
+      
+      <div style="width:80px;display:inline-block;"></div>
+      <button type="submit" value="login" style="width:100px;color:blue;">Login</button> 
+   </form>
+
+</center>
+
+{% endblock %}

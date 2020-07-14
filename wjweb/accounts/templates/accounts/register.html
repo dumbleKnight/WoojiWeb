@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block signup %} class="active" {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<center>
+    <img src='{% static "woojilogo.gif" %}' style='height:200px;width:auto;'>
+
+<form action="." method="post" style='margin-bottom:20px;'>
+    {% csrf_token %}
+    <h4>Create your account. It is free and only takes a few seconds.</h4>
+    <br>
+
+    <div style="width:400px;text-align:left;">
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {% if field.errors %}
+                <strong style="color:red;">{{field.errors}}</strong>
+            {% endif %}
+            <span style="width:135px;float:left;text-align:left;">{{ field.label_tag }}</span> {{ field }}
+            <p></p>
+        </div>
+    {% endfor %}
+    <div style="width:160px;display:inline-block;"></div>
+    <button type="submit" style="color:blue;">Register Now</button> 
+    </div>
+
+</form>
+</center>
+
+{% endblock %}
