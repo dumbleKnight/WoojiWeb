@@ -110,7 +110,7 @@ WSGI_APPLICATION = 'wjweb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
@@ -125,7 +125,29 @@ DATABASES = {
             'sql_mode': 'traditional',
         }
     }
-}
+}"""
+
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'database-1',
+            'USER': 'admin',
+            'PASSWORD': 'Wooji1234',
+            'HOST': 'database-1.c5ax87iajl4c.us-east-2.rds.amazonaws.com',
+            'PORT': 3306,
+            'OPTIONS':{
+            'sql_mode': 'traditional',
+            }
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'dbp.sqlite3'),
+        }
+    }
 
 
 # Password validation
