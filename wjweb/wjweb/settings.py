@@ -26,8 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '^68*efd00w&n!$q)hlf*!0i-h5ui-7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['*', '173.48.193.172', 'localhost', '127.0.0.1', 'aphanti.com', 'www.aphanti.com', '192.168.0.107','django-env.eba-jrjmfabd.us-west-2.elasticbeanstalk.com']
-ALLOWED_HOSTS = ['django-env.eba-jrjmfabd.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['*', '173.48.193.172', 'localhost', '127.0.0.1', 'aphanti.com', 'www.aphanti.com', '192.168.0.107','django-env.eba-jrjmfabd.us-west-2.elasticbeanstalk.com']
 #AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
