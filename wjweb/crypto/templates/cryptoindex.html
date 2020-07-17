@@ -20,9 +20,9 @@
       $(document).ready(function(){
          $.ajax({
             url : "",
+            type : "Get",
             success : function(Data){
-               var data = JSON.parse('{{indicator|safe}}');
-               console.log(data[0] + " in js");
+               var data = JSON.parse(Data)
                draw_echarts(data[0]);
             }
          });
