@@ -33,17 +33,12 @@ options = {
 };
 
 
-function main(){
-    var echart = setInterval(draw_echarts, 900);
-}
-
-function draw_echarts(){
+function draw_echarts(indi){
     var recommend = ['STRONG SELL','SELL','NEUTRAL','BUY','STRONG BUY'];
     var colors = ['rgb(255,0,0)','rgb(255,99,71)','rgb(205,201,201)','rgb(135,206,255)','rgb(0,154,209)'];
     var myChart = echarts.init(document.getElementById('panel'));
-    var indicator = (Math.random() * 100).toFixed(2) - 0;
-    var index = parseInt(indicator / 20);
-    options.series[0].data[0].value = indicator;
+    var index = parseInt(indi / 20);
+    options.series[0].data[0].value = indi;
     options.series[0].data[0].name = recommend[index];
     options.series[0].title.color = colors[index];
     myChart.setOption(options);

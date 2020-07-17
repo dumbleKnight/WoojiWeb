@@ -8,13 +8,27 @@
 <link rel="stylesheet" type="text/css" href="../static/crypto.css">
 <script type="text/javascript" src="{% static 'crypto.js' %}"></script>
 <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <h1>Technical analysis</h1>
 <br></br>
 <h3>A fast and easy way to analyze Cryptocurrencies</h3>
 <br></br>
 <div id="panel" style="width: 600px;height:400px;"></div>
-<script>
-   main();
+<script type="text/javascript">
+   setInterval(ajaxLoad,1000);
+   function ajaxLoad(){
+      $(document).ready(function(){
+         $.ajax({
+            url : "",
+            success : function(Data){
+               var data = JSON.parse('{{indicator|safe}}');
+               console.log(data[0] + " in js");
+               draw_echarts(data[0]);
+            }
+         });
+      });
+   }
 </script>
-
 {% endblock %}
+
+
