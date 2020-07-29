@@ -133,3 +133,11 @@ g.hovered > rect {
     border-bottom: 1px solid #aaa;
     font-weight: bold;
 }
+
+#heatmapindex {
+    margin: auto; 
+    min-height: 310px; 
+    min-width: 800px; 
+    max-width: 800px; 
+    padding-left: 30px; 
+    color: #333; }

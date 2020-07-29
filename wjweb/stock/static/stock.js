@@ -88,6 +88,23 @@ function draw_treemap(tmarray, treemapid, predtermid, tooltipid) {
 };
 
 function d3_draw_treemap(tmarray, treemapid, predtermid, tooltipid) {
+    var margin = {top: 25, right: 0, bottom: 0, left: 0},
+    width = 800,
+    height = 450 - margin.top - margin.bottom;
+
+    var color = d3.scale.threshold()
+            .domain([-3,-0.25,0.25,3])
+            .range(["#BB0000","#600A0A","#404040","#064D15","#1CA41C"]);
+    
+    var x = d3.scale.linear()
+            .domain([0, width])
+            .range([0, width]);
+        
+    var y = d3.scale.linear()
+            .domain([0, height])
+            .range([0, height]);
+
+
     var term = document.getElementById(predtermid);
     var node_name = "#" + treemapid;
     var groups = d3.select(node_name)
@@ -97,18 +114,18 @@ function d3_draw_treemap(tmarray, treemapid, predtermid, tooltipid) {
                  .append("g");
     
     groups.append("rect")
-          .attr("x",function(d){ return d[1]; })
-          .attr("y",function(d){ return d[2]; })
+          .attr("x",function(d){ return x(d[1]); })
+          .attr("y",function(d){ return y(d[2]); })
           .attr("rx",0)
           .attr("ry",0)
-          .attr("width",function(d){ return d[3]; })
-          .attr("height",function(d) {return d[4]; })
-          .attr("style",function(d) { return "fill:" + get_treemap_color(d[5]); });
+          .attr("width",function(d){ return x(d[3]); })
+          .attr("height",function(d) {return y(d[4]); })
+          .attr("style",function(d) { return "fill:" + /*get_treemap_color(d[5])*/color(d[5]); });
     
     groups.append("text")
           .attr("font-wight","bold")
-          .attr("x",function(d){ return (d[1] + d[3] / 2) ; })
-          .attr("y",function(d){ return (d[2] + d[4] / 2); })
+          .attr("x",function(d){ return x(d[1] + d[3] / 2) ; })
+          .attr("y",function(d){ return y(d[2] + d[4] / 2); })
           .text(function(d){ return d[0]; })
           .attr("text-anchor","middle")
           .attr("dominant-baseline","central");
@@ -138,6 +155,8 @@ function d3_draw_treemap(tmarray, treemapid, predtermid, tooltipid) {
     
         
 }
+
+
 
 function show_top_table(tmarray, toptableid, predtermid) {
     var table = document.getElementById(toptableid);
