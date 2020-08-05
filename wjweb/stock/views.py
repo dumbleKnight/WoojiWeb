@@ -10,6 +10,9 @@ import markdown
 from django.http import HttpResponse, JsonResponse
 import json
 import pandas as pd
+import mysql.connector
+from json import JSONEncoder
+import datetime
 
 
 def stockindex(request):
@@ -42,14 +45,54 @@ def stockindex(request):
 
 
 def df2json(df):
-    return json.dumps({col: list(df[col].values) for col in list(df.columns)})
+    return json.dumps({col: list(df[col].values) for col in list(df.columns)},default = str)
 
 
 def stocktimeseries(request, pk):
     sdata = StockData.objects.get(symbol=pk)
     sprofile = StockProfile.objects.get(symbol=pk)
-    histprice = df2json(pd.read_csv(sdata.histdata_market))
-    histfund = pd.read_csv(sdata.histdata_fund)
+    mydb = connectDataBase()
+    data = collectData(mydb,sdata.symbol)
+    test = df2Pandas(data,sdata.symbol)
+    histprice = df2json(test)
+    mydb.close()
+    #histfund = pd.read_csv(sdata.histdata_fund)
     return render(request, 'stockdetail.html', context={'sdata': sdata, 'sprofile': sprofile,
                                                         'histprice': histprice})
+
+def connectDataBase():
+    mydb = mysql.connector.connect(
+	host = "wjweb.c5ax87iajl4c.us-east-2.rds.amazonaws.com",
+	user = "admin",
+	passwd = "Wooji1234",
+	database = "wj_Equity"
+    )
+    return mydb
+
+def collectData(mydb,symbol):
+    mycursor = mydb.cursor()
+    sql = "SELECT date,open,high,low,close,volume,mktcap FROM Quote WHERE symbol = '" + symbol + "'"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    mycursor.close()
+    return myresult
+
+def df2Pandas(data,symbol):
+    column_names = ["date", "symbol", "open","high","low","close","volume","mktcap"]
+    df = pd.DataFrame(columns = column_names)
+    for row in data:
+        df = df.append({'date' : row[0].date(),
+                        'symbol' : symbol,
+                        'open' : row[1],
+                        'high'  : row[2],
+                        'low' : row[3],
+                        'close' : row[4],
+                        'volume' : row[5],
+                        'mktcap' : row[6]}, 
+                        ignore_index=True)
+    return df
+
+
+
+
 
