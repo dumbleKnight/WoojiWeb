@@ -79,12 +79,12 @@
     };
     
     u.oninput = function () {
-        draw_treemap(get_tmarray(flag='all'), "treemap_id", "predterm_id", "tooltip_id");
+        d3_draw_treemap(get_tmarray(flag='all'), "treemap_id", "predterm_id", "tooltip_id");
         show_top_table(get_tmarray(flag='top'), "toptable_id", "predterm_id");
     };
 
     p.oninput = function () {
-        draw_treemap(get_tmarray(flag='all'), "treemap_id", "predterm_id", "tooltip_id");
+        d3_draw_treemap(get_tmarray(flag='all'), "treemap_id", "predterm_id", "tooltip_id");
         show_top_table(get_tmarray(flag='top'), "toptable_id", "predterm_id");
     };
 
