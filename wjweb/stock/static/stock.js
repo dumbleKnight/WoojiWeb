@@ -104,9 +104,12 @@ function d3_draw_treemap(tmarray, treemapid, predtermid, tooltipid) {
             .domain([0, height])
             .range([0, height]);
 
-
     var term = document.getElementById(predtermid);
+
     var node_name = "#" + treemapid;
+
+    d3.select(node_name).selectAll("*").remove();
+
     var groups = d3.select(node_name)
                  .selectAll("g")
                  .data(tmarray)
